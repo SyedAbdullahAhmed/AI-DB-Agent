@@ -1,8 +1,4 @@
-Here’s a clean `README.md` in Markdown syntax for your CLI-based finance tracking AI agent:  
 
----
-
-```markdown
 # 🧮 CLI Finance Tracker AI Agent
 
 A sample **CLI-based AI agent** built using the **Groq API** and **MongoDB** for **personal finance tracking**.  
