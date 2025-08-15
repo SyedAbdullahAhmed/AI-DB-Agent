@@ -3,7 +3,7 @@
   "module": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node agent.js"
+    "dev": "node ./src/agent.js"
   },
   "devDependencies": {
     "@types/bun": "latest"
@@ -12,6 +12,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "dotenv": "^17.2.1",
     "groq-sdk": "^0.30.0",
     "mongoose": "^8.17.1"
   }

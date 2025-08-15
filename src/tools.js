@@ -1,4 +1,5 @@
-import { Transaction, connectDB } from "./schema.js";
+import { Transaction } from "./schema.js";
+import { connectDB } from "./conn.js";
 
 connectDB()
 async function getTotalAmount() {
@@ -11,6 +12,8 @@ async function getTotalAmount() {
      if (total <= 0) {
       return "Account balance is 0"
     }
+
+    console.log(`Total balance: ${total}`);
     return `${total}`;
   } catch (error) {
     console.error('Error calculating money balance:', error);
@@ -28,6 +31,7 @@ async function getTotalExpense() {
      if (total <= 0) {
       return "Account balance is 0"
     }
+    console.log(`Total expense: ${total}`);
     return `${total}`;
   } catch (error) {
     console.error('Error calculating total expense:', error);
@@ -45,6 +49,7 @@ async function getTotalIncome() {
     if (total <= 0) {
       return "Account balance is 0"
     }
+    console.log(`Total income: ${total}`);
     return `${total}`;
   } catch (error) {
     console.error('Error calculating total income:', error);
@@ -53,31 +58,45 @@ async function getTotalIncome() {
 }
 
 async function addExpense({ amount, purpose }) {
-  const totalBalance = await getTotalAmount();
-  if (+totalBalance <= 0) {
-    return "You have no money to buy something";
+  try {
+    const totalBalance = await getTotalAmount();
+    if (+totalBalance <= 0) {
+      return "You have no money to buy something";
+    }
+    const expense = await Transaction.create({
+      type: "deduct",
+      amount: Number(amount),
+      purpose
+    });
+    if (!expense) {
+      return 'Add failed'
+    }
+    console.log("Expense added");
+    console.log(expense)
+    return 'Added to the database.';
+  } catch (error) {
+      console.log("Error adding expense:");
+      console.log(error);
   }
-  const expense = await Transaction.create({
-    type: "deduct",
-    amount,
-    purpose
-  });
-  if (!expense) {
-    return 'Add failed'
-  }
-  return 'Added to the database.';
 }
 
 async function addIncome({ amount, purpose }) {
-  const income = await Transaction.create({
-    type: "add",
-    amount,
-    purpose
-  });
-  if (!income) {
-    return 'Add failed'
+  try {
+    const income = await Transaction.create({
+      type: "add",
+      amount: Number(amount),
+      purpose
+    });
+    if (!income) {
+      return 'Add failed'
+    }
+    console.log("Income added");
+    console.log(income)
+    return 'Added to the database.';
+  } catch (error) {
+    console.log("Error adding income:");
+      console.log(error);
   }
-  return 'Added to the database.';
 }
 
 export {

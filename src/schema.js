@@ -24,18 +24,7 @@ const transactionSchema = new mongoose.Schema({
 
 const Transaction=  mongoose.model('Transaction', transactionSchema);
 
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI);
-
-    // console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.error(`❌ Error connecting to MongoDB: ${error.message}`);
-    process.exit(1); // Stop the app if connection fails
-  }
-};
-
 
 export {
-  Transaction, connectDB
+  Transaction
 }
